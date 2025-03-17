@@ -6,23 +6,18 @@
 
     <div v-if="!loading">
         <!-- corps -->
-        <div class="mx-auto mb-8 w-full grid grid-cols-2 gap-4">
-            <button v-if="!plat.status" type="submit"
-                class="rounded-lg w-full bg-green-500 text-white font-bold py-2">Publier</button>
-            <button v-else type="submit"
-                class="rounded-lg w-full bg-red-500 text-white font-bold py-2">Restreindre</button>
-            <button type="submit" class="rounded-lg w-full bg-orange-500 text-white font-bold py-2">Modifier</button>
-        </div>
-
         <div class="w-full grid lg:grid-cols-2 gap-4">
             <div class="lg:order-2">
                 <!-- photo -->
                 <img class="lg:h-96 w-full rounded-lg" :src="plat.photo" alt="">
             </div>
-            <div class="lg:order-1 border-4">
+            <div class="lg:order-1">
                 <!-- details -->
                 <div class="md:px-5 px-2">
-                    <p class="mb-2 text-4xl font-black text-gray-900 dark:text-white">{{ plat.nom }}</p>
+                    <div class="grid grid-cols-2 gap-2 items-center">
+                        <p class="mb-2 text-3xl font-black text-gray-900 dark:text-white">{{ plat.nom }}</p>
+                        <p class="mb-2 text-xs font-black text-gray-900 dark:text-white">{{ plat.date }}</p>
+                    </div>
                     <p
                         class="lg:overflow-y-auto lg:h-32 font-serif text-justify ml-5 text-base text-gray-900 dark:text-white">
                         {{ plat.details }}
@@ -30,7 +25,7 @@
                 </div>
 
                 <div class="mx-5 my-5">
-                    <div class="sm:w-full border-2 border-orange-500  p-1 rounded-xl">
+                    <div class="sm:w-full border-2 border-orange-500 dark:border-white  p-1 rounded-xl">
                         <p class="ml-4 text-base font-serif text-gray-900 dark:text-white">Prix :</p>
                         <p class="mb-2 text-center text-gray-900 font-semibold text-2xl dark:text-white">
                             {{ plat.prix }} Fc
@@ -38,7 +33,7 @@
                     </div>
                 </div>
                 <div class="mx-5 mb-3 grid grid-cols-2 gap-3">
-                    <div class="m-auto w-full  border-2 border-black  p-1 rounded-xl">
+                    <div class="m-auto w-full  border-2 border-black  p-1 rounded-xl dark:border-white">
                         <p class="ml-4 text-xs font-serif text-gray-900 dark:text-white">Like :</p>
                         <p class="text-center text-gray-900 font-semibold text-xl dark:text-white">{{ plat.like }}
                         </p>
@@ -49,8 +44,14 @@
                             {{ plat.commandes }}</p>
                     </div>
                 </div>
-                <p class="ml-8">{{ plat.date }}</p>
             </div>
+        </div>
+        <div class="mx-auto my-5 mb-8 w-full grid grid-cols-2 gap-4">
+            <button v-if="!plat.status" type="submit"
+                class="rounded-lg w-full bg-green-500 text-white font-bold py-2">Publier</button>
+            <button v-else type="submit"
+                class="rounded-lg w-full bg-red-500 text-white font-bold py-2">Restreindre</button>
+            <button type="submit" class="rounded-lg w-full bg-orange-500 text-white font-bold py-2">Modifier</button>
         </div>
     </div>
     <div role="status" class="flex justify-center items-center" v-else>
