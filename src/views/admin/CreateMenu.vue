@@ -45,7 +45,7 @@
                     <label v-for="item in plats" class="flex items-center">
                         <input type="checkbox" v-model="menu.plats" name="plats[]" :value="item['id']"
                             class="form-checkbox h-5 w-5 text-yellow-500">
-                        <span class="ml-2 text-gray-700">{{ item['nom'] }}</span>
+                        <span class="ml-2 text-gray-700 dark:text-white">{{ item['nom'] }}</span>
                     </label>
                 </div>
 
