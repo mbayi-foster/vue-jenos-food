@@ -12,6 +12,7 @@ import CreateZones from '@/views/admin/users/CreateZones.vue'
 import { useUserStore } from '@/stores/store.js'
 import Commandes from '@/views/gerant/Commandes.vue'
 import CreateUser from '@/views/admin/users/CreateUser.vue'
+import Menu from "@/views/admin/details/Menu.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,6 +89,13 @@ const router = createRouter({
       path: '/plat/:id', // :id est un paramètre dynamique
       name: 'Plat',
       component: Plat,
+      props: true,
+      meta: { requiresAuth: true }, // permet de passer le paramètre comme prop au composant
+    },
+    {
+      path: '/menus/:id', // :id est un paramètre dynamique
+      name: 'Menu',
+      component: Menu,
       props: true,
       meta: { requiresAuth: true }, // permet de passer le paramètre comme prop au composant
     }

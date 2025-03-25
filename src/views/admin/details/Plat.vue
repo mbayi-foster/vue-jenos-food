@@ -4,7 +4,7 @@
     </div>
 
 
-    <div v-if="!loading">
+    <div v-if="!loading && !erreur">
         <!-- corps -->
         <div class="w-full grid lg:grid-cols-2 gap-4">
             <div class="lg:order-2">
@@ -46,15 +46,20 @@
                 </div>
             </div>
         </div>
-        <div class="mx-auto my-5 mb-8 w-full grid grid-cols-2 gap-4">
-            <button v-if="!plat.status" type="submit"
-                class="rounded-lg w-full bg-green-500 text-white font-bold py-2">Publier</button>
-            <button v-else type="submit"
-                class="rounded-lg w-full bg-red-500 text-white font-bold py-2">Restreindre</button>
-            <button type="submit" class="rounded-lg w-full bg-orange-500 text-white font-bold py-2">Modifier</button>
+        <div class="mx-auto my-5 mb-8 w-full grid grid-cols-2 gap-4 text-center">
+            <div class="text-center"> <button type="submit"
+                    class="text-center rounded-lg w-full md:w-2xs bg-orange-500 text-white font-bold py-2">Modifier</button>
+            </div>
+            <div>
+                <button v-if="!plat.status" type="submit"
+                    class="rounded-lg w-full md:w-2xs  bg-green-500 text-white font-bold py-2">Publier</button>
+                <button v-else type="submit"
+                    class="rounded-lg w-full md:w-2xs bg-red-500 text-white font-bold py-2">Restreindre</button>
+            </div>
+
         </div>
     </div>
-    <div role="status" class="flex justify-center items-center" v-else>
+    <div role="status" class="flex justify-center items-center" v-if="loading">
         <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-yellow-500"
             viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -66,11 +71,11 @@
         </svg>
         <span class="sr-only">Loading...</span>
     </div>
-    <div v-if="erreur">
+    <div v-if="erreur" class="text-center">
         <p class="text-center mb-3 text-lg text-red-500 md:text-xl dark:text-gray-400">
             Une erreur s'est produite veillez actualiser la page !
         </p>
-        <button @click="fetchPlat" class="rounded-lg w-full bg-orange-500 text-white font-bold py-2">Actualiser</button>
+        <button @click="fetchPlat" class="rounded-lg p-5 bg-orange-500 text-white font-bold py-2">Actualiser</button>
 
     </div>
 
@@ -99,6 +104,7 @@ const fetchPlat = async () => {
     } catch (error) {
         erreur.value = true
     }
+    loading.value = false
 }
 
 onMounted(fetchPlat)
