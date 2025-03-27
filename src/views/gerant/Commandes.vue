@@ -17,6 +17,9 @@ import api from '@/api/api'
 const plats = ref([])
 const tablesColumn = ref([
     { key: 'ticket', label: 'Ticket' },
+    { key: 'status', label: 'Paiement' },
+    { key: 'status', label: 'Status' },
+    { key: 'livraison', label: 'Livraison' },
 
 ])
 const hasData = ref(false)
