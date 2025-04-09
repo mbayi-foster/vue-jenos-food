@@ -149,7 +149,6 @@ const fetchItems = async () => {
 const getRoles = async () => {
     try {
         roles.value = await api.get(`/roles`)
-        console.log("les roles sont : ", roles.value)
     } catch (error) {
         console.log(error)
     }
@@ -159,8 +158,7 @@ const showForm = async (utilisateur) => {
     await getRoles()
     if (utilisateur) {
         user.value = utilisateur
-        selectedRoles.value = user.value.roles?.map(role => role.id);
-        console.log(selectedRoles.value)
+        selectedRoles.value = user.value.roles?.map(role => role.id)
     }
     show.value = (show.value == true) ? false : true
 }
