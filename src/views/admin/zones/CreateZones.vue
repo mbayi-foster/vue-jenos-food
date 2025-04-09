@@ -48,11 +48,11 @@
             </div>
         </form>
     </div>
-    <MapPage />
+
+
 </template>
 <script setup>
 import BreadCumb from '@/components/BreadCumb.vue';
-import MapPage from '@/components/MapPage.vue';
 import { useRouter } from 'vue-router';
 import api from '@/api/api'
 import { onMounted, ref } from 'vue';
@@ -65,7 +65,7 @@ const zone = ref({
     latMin: 0,
     lonMax: 0,
     lonMin: 0,
-    livreurs:[]
+    livreurs: []
 });
 const load = ref(false)
 
