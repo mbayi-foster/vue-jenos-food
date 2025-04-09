@@ -1,23 +1,22 @@
 <template>
     <div class="mb-5">
-        <BreadCumb hote="Zones" lien="/zones" page="Nouvelle zone" />
+        <BreadCumb hote="Zones" lien="/zones" page="Nouvelle Commune" />
     </div>
     <div class="px-4 mx-auto max-w-2xl mt-4">
         <form method="post" enctype="multipart/form-data" @submit.prevent="handleSubmit">
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                 <div class="sm:col-span-2">
                     <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom*</label>
-                    <input type="text" name="nom" id="nom" v-model="zone.nom"
+                    <input type="text" name="nom" id="nom" v-model="commune.nom"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="Veillez nommer le zone" required>
                 </div>
                 <div class="sm:col-span-2">
-                    <label for="prix"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gérant*</label>
-                    <select id="countries" v-model="zone.gerant"
+                    <label for="prix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zone*</label>
+                    <select id="countries" v-model="commune.zone"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Selectionner un gérant</option>
-                        <option v-for="item in gerants" :value="item['id']">{{ item['nom'] }}</option>
+                        <option selected>Selectionner une zone</option>
+                        <option v-for="item in zones" :value="item['id']">{{ item['nom'] }}</option>
                     </select>
                 </div>
             </div>
@@ -48,47 +47,42 @@
             </div>
         </form>
     </div>
-
-
 </template>
 <script setup>
 import BreadCumb from '@/components/BreadCumb.vue';
-import { useRouter } from 'vue-router';
 import api from '@/api/api'
+import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
-const router = useRouter()
-const gerants = ref([])
-const zone = ref({
+
+const commune = ref({
     nom: '',
-    gerant: 0,
-    latMax: 0,
-    latMin: 0,
-    lonMax: 0,
-    lonMin: 0,
-    livreurs: []
-});
+    zone: ''
+})
+const router = useRouter()
+const zones = ref([])
 const load = ref(false)
-
-
 const handleSubmit = async () => {
 
     try {
-        load.value = false
-        const data = await api.post('/zones', zone.value);
-        router.push('/zones'); // Décommenter si vous souhaitez rediriger
+        console.log("commune :", commune.value)
+        load.value = true
+        const data = await api.post('/communes', commune.value);
+        //router.push("/zones")
     } catch (error) {
-        load.value = false
-        console.error('Erreur lors du chargement des éléments:', error.response ? error.response.data : error.message);
-    }
-};
 
-const fetchGerants = async () => {
+    }
+    load.value = false
+}
+
+const getZones = async () => {
     try {
-        gerants.value = await api.get('/gerants')
+        const data = await api.get('/zones')
+        zones.value = data
+        console.log("les zones", zones.value)
     } catch (error) {
 
     }
 }
 
-onMounted(fetchGerants)
+onMounted(getZones)
 </script>
