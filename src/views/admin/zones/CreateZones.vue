@@ -48,9 +48,11 @@
             </div>
         </form>
     </div>
+    <MapPage />
 </template>
 <script setup>
 import BreadCumb from '@/components/BreadCumb.vue';
+import MapPage from '@/components/MapPage.vue';
 import { useRouter } from 'vue-router';
 import api from '@/api/api'
 import { onMounted, ref } from 'vue';
@@ -59,6 +61,11 @@ const gerants = ref([])
 const zone = ref({
     nom: '',
     gerant: 0,
+    latMax: 0,
+    latMin: 0,
+    lonMax: 0,
+    lonMin: 0,
+    livreurs:[]
 });
 const load = ref(false)
 
@@ -67,7 +74,7 @@ const handleSubmit = async () => {
 
     try {
         console.log('zone avant envoi:', zone.value);
-        const data = await api.post('/zones', zone.value );
+        const data = await api.post('/zones', zone.value);
         console.log("Données après soumission : ", data);
         load.value = false
         router.push('/zones'); // Décommenter si vous souhaitez rediriger
