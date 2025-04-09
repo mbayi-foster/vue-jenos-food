@@ -81,18 +81,28 @@
                         <span class="ms-3">Tableau de bord</span>
                     </RouterLink>
                 </li>
+                <div class="flex items-center my-4">
+    <div class="flex-grow border-t border-gray-300"></div>
+    <span class="mx-4 text-gray-600 font-semibold">Gérants</span>
+    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+                <li>
+                    <router-link to="/commandes"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <i class="text-xl fa-solid fa-map-pin"></i>
+                        <span class="ms-3">Commandes</span>
+                    </router-link>
+                </li>
+                <div class="flex items-center my-4">
+    <div class="flex-grow border-t border-gray-300"></div>
+    <span class="mx-4 text-gray-600 font-semibold">Administrateur</span>
+    <div class="flex-grow border-t border-gray-300"></div>
+</div>
                 <li>
                     <router-link to="/plats"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="text-xl fa-solid fa-cookie"></i>
                         <span class="ms-3">Plats</span>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link to="/users"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="text-xl fa-solid fa-users"></i>
-                        <span class="ms-3">Utilisateurs</span>
                     </router-link>
                 </li>
                 <li>
@@ -102,6 +112,23 @@
                         <span class="ms-3">Menus</span>
                     </router-link>
                 </li>
+               
+                <li>
+                    <router-link to="/livreurs"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <i class="text-xl fa fa-motorcycle"></i>
+                        <span class="ms-3">Livreurs</span>
+                    </router-link>
+                </li>
+               
+               
+                <li>
+                    <router-link to="/users"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <i class="text-xl fa-solid fa-users"></i>
+                        <span class="ms-3">Utilisateurs</span>
+                    </router-link>
+                </li>
                 <li>
                     <router-link to="/zones"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -109,13 +136,9 @@
                         <span class="ms-3">Zones</span>
                     </router-link>
                 </li>
-                <li>
-                    <router-link to="/commandes"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="text-xl fa-solid fa-map-pin"></i>
-                        <span class="ms-3">Commandes</span>
-                    </router-link>
-                </li>
+                
+               
+               
             </ul>
         </div>
     </aside>
@@ -123,7 +146,7 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/store'
-
+import {onMounted} from 'vue'
 const router = useRouter()
 const props = defineProps({
     user: {
@@ -134,8 +157,12 @@ const props = defineProps({
 
 const userStore = useUserStore()
 
+
 const signOut = () => {
     userStore.logout()
 }
-
+const fetch = ()=>{
+    console.log(props.user.roles)
+}
+onMounted(fetch)
 </script>

@@ -13,6 +13,8 @@ import { useUserStore } from '@/stores/store.js'
 import Commandes from '@/views/gerant/Commandes.vue'
 import CreateUser from '@/views/admin/users/CreateUser.vue'
 import Menu from "@/views/admin/details/Menu.vue"
+import Livreurs from "@/views/admin/livreurs/Livreurs.vue"
+import CreateLivreur from "@/views/admin/livreurs/CreateLivreur.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -98,8 +100,22 @@ const router = createRouter({
       component: Menu,
       props: true,
       meta: { requiresAuth: true }, // permet de passer le paramètre comme prop au composant
-    }
+    },
 
+
+    /* route livreurs */
+    {
+      path: '/livreurs',
+      name: 'Livreurs',
+      meta: { requiresAuth: true },
+      component: Livreurs
+    },
+    {
+      path: '/livreurs/create',
+      name: 'Nouveau livreur',
+      meta: { requiresAuth: true },
+      component: CreateLivreur
+    },
   ],
 })
 router.beforeEach((to, from, next) => {
