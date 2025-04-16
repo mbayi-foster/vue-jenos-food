@@ -13,7 +13,7 @@ class Api {
 
   setAuthToken() {
     const store = JSON.parse(localStorage.getItem('user'))
-   const token = store.token
+   const token = store?.token
     if (token) {
       this.api.defaults.headers['Authorization'] = `Bearer ${token}`;
     }
