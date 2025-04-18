@@ -16,7 +16,7 @@ import Menu from "@/views/admin/details/Menu.vue"
 import Livreurs from "@/views/admin/livreurs/Livreurs.vue"
 import CreateLivreur from "@/views/admin/livreurs/CreateLivreur.vue"
 import CreateCommune from "@/views/admin/zones/CreateCommune.vue"
-
+import Communes from '@/views/admin/zones/Communes.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -78,6 +78,12 @@ const router = createRouter({
       name: 'Nouvelle Commune',
       meta: { requiresAuth: true },
       component: CreateCommune
+    },
+    {
+      path: '/communes',
+      name: 'Communes',
+      meta: { requiresAuth: true },
+      component: Communes
     },
     {
       path: '/commandes',

@@ -34,10 +34,10 @@
                 </div>
                 <div class="sm:col-span-2">
                     <label for="prix"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gérant*</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zone de livraison*</label>
                     <select id="countries" v-model="user.zone"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Selectionner un gérant</option>
+                        <option selected>Selectionner une zone</option>
                         <option v-for="item in zones" :value="item['id']">{{ item['nom'] }}</option>
                     </select>
                 </div>  

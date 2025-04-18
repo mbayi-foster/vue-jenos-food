@@ -1,6 +1,6 @@
 <template>
     <div class="mb-5">
-        <BreadCumb hote="Zones" lien="/zones" page="Nouvelle Commune" />
+        <BreadCumb hote="Communes" lien="/communes" page="Nouvelle Commune" />
     </div>
     <div class="px-4 mx-auto max-w-2xl mt-4">
         <form method="post" enctype="multipart/form-data" @submit.prevent="handleSubmit">
@@ -8,6 +8,12 @@
                 <div class="sm:col-span-2">
                     <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom*</label>
                     <input type="text" name="nom" id="nom" v-model="commune.nom"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Veillez nommer le zone" required>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="frais" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Frais de livraison*</label>
+                    <input type="number" name="frais" id="frais" v-model="commune.frais"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="Veillez nommer le zone" required>
                 </div>
@@ -56,7 +62,8 @@ import { onMounted, ref } from 'vue';
 
 const commune = ref({
     nom: '',
-    zone: ''
+    zone: '',
+    frais:''
 })
 const router = useRouter()
 const zones = ref([])
@@ -67,7 +74,7 @@ const handleSubmit = async () => {
         console.log("commune :", commune.value)
         load.value = true
         const data = await api.post('/communes', commune.value);
-        //router.push("/zones")
+        router.push("/communes")
     } catch (error) {
 
     }
