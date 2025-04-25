@@ -118,14 +118,8 @@ const handleSubmit = async () => {
         console.error('Aucun fichier photo trouvé.');
         return; // Arrêtez l'exécution si aucun fichier
     }
-
-    formData.forEach((e) => {
-        console.log(e)
-    })
     try {
-        console.log('Plat avant envoi:', plat.value);
         const data = await api.post('/plats', formData);
-        console.log("Données après soumission : ", data);
         load.value = false
         router.push('/plats'); // Décommenter si vous souhaitez rediriger
     } catch (error) {
