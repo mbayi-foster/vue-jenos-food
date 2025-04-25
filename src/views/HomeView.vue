@@ -21,26 +21,29 @@
     <!-- Carte Utilisateurs -->
     <a href="#" title="Nombre total d'utilisateur enregistré sur Jenos-Food" class="bg-white p-6 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold">Utilisateurs</h2>
-      <p class="text-3xl font-bold text-gray-700">1,234</p>
+      <p class="text-3xl font-bold text-gray-700">{{ stats.users }}
+      </p>
     </a>
-
+    <!-- Carte Taux de Conversion -->
+    <a href="#" title="Taux de conversion des utilisateurs" class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold">Livreurs</h2>
+      <p class="text-3xl font-bold text-gray-700">{{ stats.livreurs }}</p>
+    </a>
     <!-- Carte Plats -->
-    <router-link to="/plats" title="Nombre total des plats enregistré sur Jenos-Food" class="bg-white p-6 rounded-lg shadow-md">
+    <router-link to="/plats" title="Nombre total des plats enregistré sur Jenos-Food"
+      class="bg-white p-6 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold">Plats</h2>
-      <p class="text-3xl font-bold text-gray-700">456</p>
+      <p class="text-3xl font-bold text-gray-700">{{ stats.plats }}</p>
     </router-link>
 
     <!-- Carte Commandes -->
-    <router-link to="/commandes" title="Nombre total des comamndes passées sur Jenos-Food" class="bg-white p-6 rounded-lg shadow-md">
+    <router-link to="/commandes" title="Nombre total des comamndes passées sur Jenos-Food"
+      class="bg-white p-6 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold">Commandes</h2>
-      <p class="text-3xl font-bold text-gray-700">789</p>
+      <p class="text-3xl font-bold text-gray-700">{{ stats.commandes }}</p>
     </router-link>
 
-    <!-- Carte Taux de Conversion -->
-    <a href="#" title="Taux de conversion des utilisateurs" class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-xl font-semibold">Taux de Conversion</h2>
-      <p class="text-3xl font-bold text-gray-700">4.5%</p>
-    </a>
+
   </div>
 
   <!-- Chart des stats -->
@@ -215,6 +218,16 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { Chart, registerables } from 'chart.js';
+import api from '@/api/api'
+
+const stats = ref({
+  users: 0,
+  plats: 0,
+  commandes: 0,
+  livreurs: 0
+})
+
+
 
 Chart.register(...registerables);
 
@@ -280,8 +293,20 @@ const renderChart = () => {
   chartInstance = new Chart(ctx, config);
 };
 
+const fetchItems = async () => {
+  try {
+    const res = await api.get(`/dashboard`);
+    stats.value.users = res.users
+    stats.value.livreurs = res.livreurs
+    stats.value.plats = res.plats
+    stats.value.commandes = res.commandes
+  } catch (error) {
+    
+  }
+}
 onMounted(() => {
   renderChart();
+  fetchItems()
 });
 
 onBeforeUnmount(() => {
@@ -289,4 +314,6 @@ onBeforeUnmount(() => {
     chartInstance.destroy();
   }
 });
+
+
 </script>
