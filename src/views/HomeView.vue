@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-6 flex text-end justify-end items-end w-xs">
+ <!--  <div class="mb-6 flex text-end justify-end items-end w-xs">
     <select id="month" class="block w-full p-2 border border-gray-300 rounded-md">
       <option value="01">Janvier</option>
       <option value="02">Février</option>
@@ -14,21 +14,21 @@
       <option value="11">Novembre</option>
       <option value="12">Décembre</option>
     </select>
-  </div>
+  </div> -->
 
   <!-- Card des stats -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     <!-- Carte Utilisateurs -->
-    <a href="#" title="Nombre total d'utilisateur enregistré sur Jenos-Food" class="bg-white p-6 rounded-lg shadow-md">
+    <RouterLink to="#" title="Nombre total d'utilisateur enregistré sur Jenos-Food" class="bg-white p-6 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold">Utilisateurs</h2>
       <p class="text-3xl font-bold text-gray-700">{{ stats.users }}
       </p>
-    </a>
+    </RouterLink>
     <!-- Carte Taux de Conversion -->
-    <a href="#" title="Taux de conversion des utilisateurs" class="bg-white p-6 rounded-lg shadow-md">
+    <RouterLink to="/livreurs" title="Taux de conversion des utilisateurs" class="bg-white p-6 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold">Livreurs</h2>
       <p class="text-3xl font-bold text-gray-700">{{ stats.livreurs }}</p>
-    </a>
+    </RouterLink>
     <!-- Carte Plats -->
     <router-link to="/plats" title="Nombre total des plats enregistré sur Jenos-Food"
       class="bg-white p-6 rounded-lg shadow-md">
@@ -52,36 +52,12 @@
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Commandes par Mois</h2>
-          <div class="relative inline-block text-left">
-            <button @click="toggleMenu" class="flex items-center">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-            <div v-if="isMenuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
-              <div @click="changeYear(2023)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2023</div>
-              <div @click="changeYear(2022)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2022</div>
-              <div @click="changeYear(2021)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2021</div>
-            </div>
-          </div>
         </div>
         <canvas ref="chartCanvas"></canvas>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Commandes par Mois</h2>
-          <div class="relative inline-block text-left">
-            <button @click="toggleMenu" class="flex items-center">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-            <div v-if="isMenuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
-              <div @click="changeYear(2023)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2023</div>
-              <div @click="changeYear(2022)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2022</div>
-              <div @click="changeYear(2021)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2021</div>
-            </div>
-          </div>
         </div>
         <canvas ref="chartCanvas"></canvas>
       </div>
@@ -219,6 +195,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import api from '@/api/api'
+import { RouterLink } from 'vue-router';
 
 const stats = ref({
   users: 0,
@@ -226,6 +203,9 @@ const stats = ref({
   commandes: 0,
   livreurs: 0
 })
+
+const datasets = ref([]);
+const labelsCommande = ref([]);
 
 
 
@@ -245,32 +225,46 @@ const changeYear = (year) => {
   isMenuOpen.value = false; // Ferme le menu après sélection
 };
 
+
+
+const fetchItems = async () => {
+  labelsCommande.value = []; // Réinitialiser les labels
+  datasets.value = [];
+  try {
+    const res = await api.get(`/dashboard`);
+    stats.value.users = res.users
+    stats.value.livreurs = res.livreurs
+    stats.value.plats = res.plats
+    stats.value.commandes = res.commandes
+
+
+    res.stats.forEach(item => {
+      labelsCommande.value.push(`${item.month} ${item.year}`); // Format "Mois Année"
+      datasets.value.push(item.count);
+
+    });
+
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+
+
+
+
+/* chart commandes */
 const renderChart = () => {
   const ctx = chartCanvas.value.getContext('2d');
 
   // Exemple de données
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: labelsCommande.value,
     datasets: [
       {
         label: 'Commandes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)', // Jan
-          'rgba(54, 162, 235, 0.6)', // Feb
-          'rgba(255, 206, 86, 0.6)', // Mar
-          'rgba(75, 192, 192, 0.6)', // Apr
-          'rgba(153, 102, 255, 0.6)', // May
-          'rgba(255, 159, 64, 0.6)'  // Jun
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)', // Jan
-          'rgba(54, 162, 235, 1)', // Feb
-          'rgba(255, 206, 86, 1)', // Mar
-          'rgba(75, 192, 192, 1)', // Apr
-          'rgba(153, 102, 255, 1)', // May
-          'rgba(255, 159, 64, 1)'  // Jun
-        ],
+        data: datasets.value,
         borderWidth: 1,
 
       },
@@ -278,7 +272,7 @@ const renderChart = () => {
   };
 
   const config = {
-    type: 'bar',
+    type: 'doughnut',
     data: data,
     options: {
       responsive: true,
@@ -293,20 +287,10 @@ const renderChart = () => {
   chartInstance = new Chart(ctx, config);
 };
 
-const fetchItems = async () => {
-  try {
-    const res = await api.get(`/dashboard`);
-    stats.value.users = res.users
-    stats.value.livreurs = res.livreurs
-    stats.value.plats = res.plats
-    stats.value.commandes = res.commandes
-  } catch (error) {
-    
-  }
-}
-onMounted(() => {
+onMounted(async () => {
+  await fetchItems()
   renderChart();
-  fetchItems()
+
 });
 
 onBeforeUnmount(() => {
