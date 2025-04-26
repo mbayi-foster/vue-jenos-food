@@ -69,7 +69,7 @@
               Status
             </div>
           </td>
-          <td class="text-center">
+          <td v-if="item['id'] != 1 || item['nom'] != 'Root'" class="text-center">
             <div class="inline-flex rounded-md shadow-sm" role="group">
               <change-status :id="item['id']" :status="item['status']" @change-status="change" />
               <supprimer  msg="Voulez vous vraiment supprimer cet utilisateur" :id="item['id']" @effacer="effacer"/>

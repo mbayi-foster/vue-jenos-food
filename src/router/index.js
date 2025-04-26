@@ -11,6 +11,7 @@ import Zones from '@/views/admin/zones/Zones.vue'
 import CreateZones from '@/views/admin/zones/CreateZones.vue'
 import { useUserStore } from '@/stores/store.js'
 import Commandes from '@/views/gerant/Commandes.vue'
+import Notifications from '@/views/gerant/Notifications.vue'
 import CreateUser from '@/views/admin/users/CreateUser.vue'
 import Menu from "@/views/admin/details/Menu.vue"
 import Livreurs from "@/views/admin/livreurs/Livreurs.vue"
@@ -90,6 +91,12 @@ const router = createRouter({
       name: 'Liste des commandes',
       meta: { requiresAuth: true },
       component: Commandes
+    },
+    {
+      path: '/notifications',
+      name: 'Notifications',
+      meta: { requiresAuth: true },
+      component: Notifications
     },
     {
       path: '/users/create',

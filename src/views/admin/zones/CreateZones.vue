@@ -61,11 +61,6 @@ const gerants = ref([])
 const zone = ref({
     nom: '',
     gerant: 0,
-    latMax: 0,
-    latMin: 0,
-    lonMax: 0,
-    lonMin: 0,
-    livreurs: []
 });
 const load = ref(false)
 
@@ -73,8 +68,9 @@ const load = ref(false)
 const handleSubmit = async () => {
 
     try {
-        load.value = false
+        load.value = true
         const data = await api.post('/zones', zone.value);
+        load.value = false
         router.push('/zones'); // Décommenter si vous souhaitez rediriger
     } catch (error) {
         load.value = false

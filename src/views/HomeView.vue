@@ -1,5 +1,5 @@
 <template>
- <!--  <div class="mb-6 flex text-end justify-end items-end w-xs">
+  <!--  <div class="mb-6 flex text-end justify-end items-end w-xs">
     <select id="month" class="block w-full p-2 border border-gray-300 rounded-md">
       <option value="01">Janvier</option>
       <option value="02">Février</option>
@@ -19,7 +19,8 @@
   <!-- Card des stats -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     <!-- Carte Utilisateurs -->
-    <RouterLink to="#" title="Nombre total d'utilisateur enregistré sur Jenos-Food" class="bg-white p-6 rounded-lg shadow-md">
+    <RouterLink to="#" title="Nombre total d'utilisateur enregistré sur Jenos-Food"
+      class="bg-white p-6 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold">Utilisateurs</h2>
       <p class="text-3xl font-bold text-gray-700">{{ stats.users }}
       </p>
@@ -51,9 +52,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Commandes par Mois</h2>
+          <h2 class="text-xl font-semibold">Nouveaux utilisateurs par mois</h2>
         </div>
-        <canvas ref="chartCanvas"></canvas>
+        <canvas ref="chartClients"></canvas>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
@@ -65,23 +66,11 @@
   </div>
 
   <!-- Liste -->
-  <div class="my-8">
+  <!-- <div class="my-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Top 10 des plats par mois</h2>
-          <div class="relative inline-block text-left">
-            <button @click="toggleMenu" class="flex items-center">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-            <div v-if="isMenuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
-              <div @click="changeYear(2023)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2023</div>
-              <div @click="changeYear(2022)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2022</div>
-              <div @click="changeYear(2021)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2021</div>
-            </div>
-          </div>
+          <h2 class="text-xl font-semibold">Top 10 des plats</h2>
         </div>
         <ol class="max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
           <li>
@@ -130,18 +119,6 @@
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Top 10 des visiteurs par mois</h2>
-          <div class="relative inline-block text-left">
-            <button @click="toggleMenu" class="flex items-center">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-            <div v-if="isMenuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
-              <div @click="changeYear(2023)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2023</div>
-              <div @click="changeYear(2022)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2022</div>
-              <div @click="changeYear(2021)" class="cursor-pointer px-4 py-2 hover:bg-gray-100">2021</div>
-            </div>
-          </div>
         </div>
         <ol class="max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
           <li>
@@ -188,7 +165,7 @@
 
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -204,14 +181,21 @@ const stats = ref({
   livreurs: 0
 })
 
-const datasets = ref([]);
-const labelsCommande = ref([]);
+const datasets = ref({
+  commandes: [],
+  clients: []
+});
+const labels = ref({
+  commandes: [],
+  clients: []
+});
 
 
 
 Chart.register(...registerables);
 
 const chartCanvas = ref(null);
+const chartClients = ref(null);
 const isMenuOpen = ref(false);
 let chartInstance = null;
 
@@ -228,8 +212,8 @@ const changeYear = (year) => {
 
 
 const fetchItems = async () => {
-  labelsCommande.value = []; // Réinitialiser les labels
-  datasets.value = [];
+  labels.value.commandes = []; // Réinitialiser les labels
+  datasets.value.commandes = [];
   try {
     const res = await api.get(`/dashboard`);
     stats.value.users = res.users
@@ -238,10 +222,13 @@ const fetchItems = async () => {
     stats.value.commandes = res.commandes
 
 
-    res.stats.forEach(item => {
-      labelsCommande.value.push(`${item.month} ${item.year}`); // Format "Mois Année"
-      datasets.value.push(item.count);
-
+    res.stats.commandes.forEach(item => {
+      labels.value.commandes.push(`${item.month} ${item.year}`); // Format "Mois Année"
+      datasets.value.commandes.push(item.count);
+    });
+    res.stats.clients.forEach(item => {
+      labels.value.clients.push(`${item.month} ${item.year}`); // Format "Mois Année"
+      datasets.value.clients.push(item.count);
     });
 
   } catch (error) {
@@ -260,11 +247,11 @@ const renderChart = () => {
 
   // Exemple de données
   const data = {
-    labels: labelsCommande.value,
+    labels: labels.value.commandes,
     datasets: [
       {
         label: 'Commandes',
-        data: datasets.value,
+        data: datasets.value.commandes,
         borderWidth: 1,
 
       },
@@ -272,7 +259,7 @@ const renderChart = () => {
   };
 
   const config = {
-    type: 'doughnut',
+    type: 'bar',
     data: data,
     options: {
       responsive: true,
@@ -287,9 +274,42 @@ const renderChart = () => {
   chartInstance = new Chart(ctx, config);
 };
 
+/* chat clients */
+const renderClients =  () => {
+  const ctx = chartClients.value.getContext('2d');
+
+  // Exemple de données
+  const data = {
+    labels: labels.value.clients,
+    datasets: [
+      {
+        label: 'Utilisateurs',
+        data: datasets.value.clients,
+        borderWidth: 1,
+
+      },
+    ],
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+
+  chartInstance = new Chart(ctx, config);
+}
 onMounted(async () => {
   await fetchItems()
   renderChart();
+  renderClients()
 
 });
 

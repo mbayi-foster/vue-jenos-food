@@ -16,21 +16,27 @@
                         </svg>
                     </button>
                     <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
+                        <img src="../assets/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
                         <span
-                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
+                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Jenos-Food</span>
                     </a>
                 </div>
                 <div class="flex items-center">
+                    <div>
+                        <div v-if="gerant">
+                            <router-link to="/notifications" title="Notifications"
+                                class="flex items-center justify-center align-middle p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <i class="text-xl fa-solid fa-bell"></i>
+                            </router-link>
+                        </div>
+                    </div>
                     <div class="flex items-center ms-3">
                         <div>
                             <button type="button"
                                 class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                                 aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                    alt="user photo">
+                                <img class="w-8 h-8 rounded-full" src="../assets/logo.svg" alt="user photo">
                             </button>
                         </div>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
@@ -45,11 +51,11 @@
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
-                                <li>
+                                <!--  <li>
                                     <router-link to="#"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                         role="menuitem">Profile</router-link>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a @click="signOut"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
