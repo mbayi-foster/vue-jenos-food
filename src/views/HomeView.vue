@@ -199,15 +199,15 @@ const chartClients = ref(null);
 const isMenuOpen = ref(false);
 let chartInstance = null;
 
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
-};
+// const toggleMenu = () => {
+//   isMenuOpen.value = !isMenuOpen.value;
+// };
 
-const changeYear = (year) => {
-  console.log(`Changer l'année à: ${year}`);
-  // Ici, vous pouvez ajouter la logique pour mettre à jour les données du graphique en fonction de l'année sélectionnée.
-  isMenuOpen.value = false; // Ferme le menu après sélection
-};
+// const changeYear = (year) => {
+//   console.log(`Changer l'année à: ${year}`);
+//   // Ici, vous pouvez ajouter la logique pour mettre à jour les données du graphique en fonction de l'année sélectionnée.
+//   isMenuOpen.value = false; // Ferme le menu après sélection
+// };
 
 
 
@@ -259,7 +259,7 @@ const renderChart = () => {
   };
 
   const config = {
-    type: 'bar',
+    type: 'doughnut',
     data: data,
     options: {
       responsive: true,

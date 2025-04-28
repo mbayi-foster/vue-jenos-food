@@ -5,13 +5,13 @@
                 <div class="md:w-1/2 w-full">
                     <figure class="relative max-w-sm transition-all duration-300 cursor-pointer filter ">
                         <a href="#">
-                            <img class="w-full h-full object-cover" src="@/assets/img/jp.jpg" alt="Bonnie image" />
+                            <img class="w-full h-96 object-cover" src="@/assets/img/welcome.png" alt="Bonnie image" />
                         </a>
-                        <figcaption class="absolute px-4 text-lg text-white left-4 top-40">
+                      <!--   <figcaption class="absolute px-4 text-lg text-white left-4 top-40">
                             <h1
-                                class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl dark:text-white">
+                                class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-black md:text-5xl lg:text-6xl dark:text-black">
                                 Welcom Back !</h1>
-                        </figcaption>
+                        </figcaption> -->
                     </figure>
                 </div>
                 <div class="md:w-1/2 p-8 w-full">

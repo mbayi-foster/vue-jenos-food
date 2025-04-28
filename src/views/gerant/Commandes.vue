@@ -44,13 +44,21 @@ const zoneById = async (id) => {
         hasData.value = false
         const data = await api.get(`/zones-id/${id}`)
         zones.value = data
+        if (Array.isArray(data) && data.length >= 1) {
+            zones.value = data
+        } else {
+            load.value = false
+            hasData.value = false
+        }
     } catch (error) {
         console.log(error)
     }
 }
 
 const fetchItems = async () => {
-    console.log(`id zone : ${zone.value.id}`)
+    if(zone.value == null){
+        alert("Vous n'avez aucune zone")
+    }
     try {
         load.value = true
         hasData.value = false
@@ -100,7 +108,7 @@ onMounted(
             if (user != null) {
                 await zoneById(user.value.id)
             }
-             zone.value = zones.value[0]
+            zone.value = zones.value[0]
             await fetchItems()
         } catch (error) {
 

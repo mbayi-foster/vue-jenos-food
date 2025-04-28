@@ -95,7 +95,7 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-4 md:p-5">
-                    <form method="post"  enctype="multipart/form-data" @submit.prevent="handleSubmit">
+                    <form method="post" enctype="multipart/form-data" @submit.prevent="handleSubmit">
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="sm:col-span-2">
                                 <label for="nom"
@@ -240,16 +240,15 @@ const handleSubmit = async () => {
     formData.append('details', updatePlat.value.details);
     if (updatePlat.value.photo) {
         formData.append('photo', updatePlat.value.photo);
+    }else {
+        console.error('Aucun fichier photo trouvé.');
+        return; // Arrêtez l'exécution si aucun fichier
     }
 
-    formData.forEach((e) => {
-        console.log(e)
-    })
     try {
-        const data = await api.put(`/plats/${plat.value.id}`, formData);
-        console.log("Données après soumission : ", data);
+        const data = await api.post(`/plats-update/${plat.value.id}`, formData);
         updateLoad.value = false
-        router.currentRoute; // Décommenter si vous souhaitez rediriger
+        // router.currentRoute; // Décommenter si vous souhaitez rediriger
     } catch (error) {
         updateLoad.value = false
         alert("Une erreur s'est produite veillez réessayer")
