@@ -67,4 +67,5 @@ class Api {
   }
 }
 
-export default new Api('http://localhost:8000/api') // Remplacez par votre URL de base
+// export default new Api('http://localhost:8000/api') // Remplacez par votre URL de base
+export default new Api('https://ministerng.com/api') // Remplacez par votre URL de base
