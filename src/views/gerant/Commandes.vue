@@ -5,8 +5,8 @@
         </div>
         <div>
             <h3>Choisir une zone :</h3>
-            <select id="month" class="block w-full p-2 border border-gray-300 rounded-md">
-                <option v-for="item in zones" value="item['id']" @select="changeZone">{{ item['nom'] }}</option>
+            <select id="month" @change="change" class="block w-full p-2 border border-gray-300 rounded-md">
+                <option v-for="item in zones" :key="item.id" :value="item.id">{{ item.nom }}</option>
             </select>
         </div>
 
@@ -56,7 +56,7 @@ const zoneById = async (id) => {
 }
 
 const fetchItems = async () => {
-    if(zone.value == null){
+    if (zone.value == null) {
         alert("Vous n'avez aucune zone")
     }
     try {
@@ -79,13 +79,16 @@ const fetchItems = async () => {
         console.log(error)
     }
 }
-const change = async (id) => {
-    try {
-        await api.get(`/plats/status/change/${id}`)
-        fetchItems()
-    } catch (error) {
-        console.log(error)
-    }
+const change = async (event) => {
+    const id = event.target.value;
+    zone.value = zones.value.find(zone => zone.id == id)
+    fetchItems()
+    /*   try {
+          await api.get(`/plats/status/change/${id}`)
+          fetchItems()
+      } catch (error) {
+          console.log(error)
+      } */
 }
 const effacer = async (id) => {
     try {
@@ -96,9 +99,6 @@ const effacer = async (id) => {
     }
 }
 
-const changeZone = () => {
-    console.log('zone changé')
-}
 
 
 onMounted(
