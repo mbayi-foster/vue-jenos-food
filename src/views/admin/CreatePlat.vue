@@ -121,7 +121,7 @@ const handleSubmit = async () => {
     try {
         await api.post('/plats', formData);
         load.value = false
-        router.push('/plats'); // Décommenter si vous souhaitez rediriger
+      //  router.push('/plats'); // Décommenter si vous souhaitez rediriger
     } catch (error) {
         load.value = false
         console.error('Erreur lors du chargement des éléments:', error.response ? error.response.data : error.message);
