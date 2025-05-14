@@ -240,15 +240,12 @@ const handleSubmit = async () => {
     formData.append('details', updatePlat.value.details);
     if (updatePlat.value.photo) {
         formData.append('photo', updatePlat.value.photo);
-    }else {
-        console.error('Aucun fichier photo trouvé.');
-        return; // Arrêtez l'exécution si aucun fichier
-    }
+    } 
 
     try {
         const data = await api.post(`/plats-update/${plat.value.id}`, formData);
         updateLoad.value = false
-        // router.currentRoute; // Décommenter si vous souhaitez rediriger
+        router.go(0);
     } catch (error) {
         updateLoad.value = false
         alert("Une erreur s'est produite veillez réessayer")
