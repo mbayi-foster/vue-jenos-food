@@ -47,32 +47,68 @@
                         {{ index + 1 }}
                     </td>
                     <td v-for="column in columns" :key="column.key">
-                        <div v-if="column.key == 'photo'">
-                            <img class="h-20 max-w-lg rounded-lg" :src="item['photo']" alt="photo du plat">
+                        <div v-if="column.key == 'prix'">
+                            {{ item.prix + item.delivery_coast }} FC
                         </div>
-                        <div class="flex items-center" v-else-if="column.key == 'status'">
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2" v-if="item['status'] == true"></div>
-                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2" v-if="item['status'] == false"></div>
-                            Status
+                        <div class="flex items-center" v-else-if="column.key == 'confirm'">
+                            <div v-if="item['confirm'] == true && item['status'] == true">
+                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2">
+                                </div>Disponible
+                            </div>
+                            <div v-if="item['confirm'] == false && item['status'] == false">
+                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
+                                Indisponible
+                            </div>
+                            <div v-if="item['confirm'] == false && item['status'] == true">
+                                <div class="h-2.5 w-2.5 rounded-full bg-gray-500 me-2"></div>
+                                En attente
+                            </div>
                         </div>
-                        <div v-else-if="column.key == 'qte'">
-                            <p>Disponible : {{ item['qte'] }}</p>
-                            <p>Commandées : {{ item['commandes'] }}</p>
+                        <div class="flex items-center" v-else-if="column.key == 'livraison'">
+                            <div v-if="item['livraison'] == 'null'">
+                                <div class="h-2.5 w-2.5 rounded-full bg-gray-500 me-2">
+                                </div>En attente
+                            </div>
+                            <div v-if="item['livraison'] == 'progress'">
+                                <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 me-2">
+                                </div>En cours
+                            </div>
+                            <div v-if="item['livraison'] == 'finish'">
+                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2">
+                                </div>Terminée
+                            </div>
+                            <div v-if="item['livraison'] == 'field'">
+                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2">
+                                </div>Echouée
+                            </div>
+                        </div>
+                        <div v-else-if="column.key == 'livreur'">
+                            <div v-if="item['livreur'] == null">
+                                Non attribuée
+                            </div>
+                            <div v-else>
+                                <p>
+                                    {{ item['livreur']['nom'] }} {{ item['livreur']['prenom'] }}
+                                </p>
+                                <p class="">
+                                    {{ item['livreur']['phone'] }}
+                                </p>
+                            </div>
                         </div>
                         <div v-else class="align-top text-start justify-start items-start flex">
                             {{ item[column.key] }}
                         </div>
                     </td>
                     <td class="text-center">
-                        <!--  <div class="inline-flex rounded-md shadow-sm" role="group">
-                            <change-status msg-oui="Vous êtes sur le point d'accepter la commande cliqu"
+                         <div class="inline-flex rounded-md shadow-sm" role="group">
+                            <change-status msg-oui="Confirmer la livraison ?"
                             msg-non="Voulez vous vraiment désactiver ce plat"  :id="item['id']" :status="item['status']" @change-status="change" />
-                           <supprimer  msg="Voulez vous vraiment supprimer ce plat" :id="item['id']" @effacer="effacer"/>
-                            <router-link type="button" :to="`menus/${item['id']}`" title="Voir plus..."
+                           <supprimer  msg="Refuser cette commande ?" :id="item['id']" @effacer="effacer"/>
+                            <router-link type="button" :to="`commandes/${item['id']}`" title="Voir plus..."
                                 class="inline-flex items-center px-6 py-2.5 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
                                 <i class="fa-solid fa-circle-info text-base"></i>
                             </router-link>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>

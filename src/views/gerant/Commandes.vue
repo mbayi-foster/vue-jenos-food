@@ -30,9 +30,10 @@ const zone = ref()
 const commandes = ref([])
 const tablesColumn = ref([
     { key: 'ticket', label: 'Ticket' },
-    { key: 'status', label: 'Paiement' },
-    { key: 'status', label: 'Status' },
+    { key: 'prix', label: 'Facture' },
+    { key: 'confirm', label: 'Confirmation' },
     { key: 'livraison', label: 'Livraison' },
+    { key: 'livreur', label: 'Livreur' },
 
 ])
 const hasData = ref(false)
