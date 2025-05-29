@@ -27,6 +27,7 @@ const store = useUserStore()
 const user = ref([])
 const zones = ref([])
 const zone = ref()
+const livreurs = ref([])
 const commandes = ref([])
 const tablesColumn = ref([
     { key: 'ticket', label: 'Ticket' },
@@ -63,17 +64,19 @@ const fetchItems = async () => {
     try {
         load.value = true
         hasData.value = false
-        const data = await api.get(`/commandes/${zone.value.id}`)
+        const data = await api.get(`/commandes-gerant/zone/${zone.value.id}`)
+        const livreursData = await api.get(`livreurs-by-zone/${zone.value.id}`)
         if (Array.isArray(data) && data.length >= 1) {
             commandes.value = data
             load.value = false
             hasData.value = true
+            livreurs.value = livreursData
         } else {
             load.value = false
             hasData.value = false
         }
 
-
+        
     } catch (error) {
         hasData.value = false
         load.value = false
@@ -84,12 +87,6 @@ const change = async (event) => {
     const id = event.target.value;
     zone.value = zones.value.find(zone => zone.id == id)
     fetchItems()
-    /*   try {
-          await api.get(`/plats/status/change/${id}`)
-          fetchItems()
-      } catch (error) {
-          console.log(error)
-      } */
 }
 const effacer = async (id) => {
     try {

@@ -169,11 +169,11 @@
     </div>
 </template>
 <script setup>
+import {initFlowbite} from 'flowbite';
 import BreadCumb from '@/components/BreadCumb.vue';
 import { onMounted, ref } from 'vue';
 import api from "@/api/api"
-import { routerKey } from 'vue-router';
-import { useRouter } from 'vue-router';
+import { routerKey, useRouter } from 'vue-router';
 const router = useRouter()
 const props = defineProps({
     id: {
@@ -252,7 +252,10 @@ const handleSubmit = async () => {
         console.error('Erreur lors du chargement des éléments:', error.response ? error.response.data : error.message);
     }
 }
-onMounted(fetchPlat)
+onMounted(() => {
+    initFlowbite();
+    fetchPlat();
+});
 </script>
 
 <style>
