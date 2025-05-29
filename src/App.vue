@@ -2,6 +2,7 @@
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useUserStore } from './stores/store'
 import { watch, onMounted, ref } from 'vue';
+import { initFlowbite } from 'flowbite'
 import NavBar from './components/NavBar.vue';
 const store = useUserStore()
 
@@ -13,7 +14,11 @@ const calcule = () => {
   isConnected.value = store.isAuthenticated
 }
 const router = useRouter()
-onMounted(calcule)
+onMounted(() => {
+  initFlowbite();
+  calcule();
+})
+
 watch(
   () => store.isAuthenticated,
   (newValue) => {
@@ -22,7 +27,7 @@ watch(
     if (!newValue) {
       // Rediriger vers la route de connexion
       router.push('/login');
-    }else{
+    } else {
       calcule()
     }
   }

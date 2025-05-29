@@ -67,5 +67,5 @@ class Api {
   }
 }
 
-export default new Api('http://jenos-food.store:8000/api') // Remplacez par votre URL de base
+export default new Api('http://185.116.238.37:8000/api') // Remplacez par votre URL de base
 // export default new Api('http://localhost:8000/api') // Remplacez par votre URL de base
