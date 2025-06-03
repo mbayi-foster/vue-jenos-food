@@ -36,8 +36,8 @@ watch(
 
 <template>
   <NavBar v-if="isConnected" :user="user" />
-  <div v-if="isConnected" class="p-4 sm:ml-64">
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 dark:bg-gray-700">
+  <div v-if="isConnected" class="sm:ml-64 dark:bg-gray-800">
+    <div class="p-4 rounded-lg dark:border-gray-700 mt-14 dark:bg-gray-800">
       <RouterView />
     </div>
   </div>
